@@ -112,7 +112,7 @@
 
 ## **Procedimento**
 
-* **Faça um fork do projeto: **
+* **Faça um fork do projeto:**
 
     * https://github.com/kutzr/processo-seletivo-arquiteto-back-sigma-jul-2018
 
