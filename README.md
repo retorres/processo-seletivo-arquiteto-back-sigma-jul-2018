@@ -26,7 +26,7 @@
 
 * **Acessos:**
 
-É preciso disponibilizar meios para que sejam acessadas as informações de todos os patrimônios, os patrimônios de uma determinada marca, os de um determinado modelo, patrimônios por Identificador Único e para inserir, atualizar e excluir um patrimônio.
+É preciso disponibilizar meios para que sejam acessadas as informações de todos os patrimônios. Eles deverão ser obtidos por uma determinada marca, por um determinado modelo ou por um identificador único. Deverá conter operações de criação, atualização e exclusão de um patrimônio.
 
 * **Regras:**
 
@@ -42,7 +42,7 @@
 
 * **Acessos:**
 
-É preciso disponibilizar meios para que sejam acessadas as informações de todas os marcas, marcas por Identificador Único e para inserir, atualizar e excluir uma marca.
+É preciso disponibilizar meios para que sejam acessadas as informações de todas os marcas. Elas deverão ser obtidas por um identificador único. Deverá conter operações de criação, atualização e exclusão de uma marca.
 
 * **Regras:**
 
@@ -58,7 +58,7 @@
 
 * **Acessos:**
 
-É preciso disponibilizar meios para que sejam acessadas as informações de todos os modelos, os modelos de uma determinada marca, modelos por Identificador Único e para inserir, atualizar e excluir um modelo.
+É preciso disponibilizar meios para que sejam acessadas as informações de todos os modelos. Eles deverão ser obtidos por uma determinada marca ou por um identificador único. Deverá conter operações de criação, atualização e exclusão de um modelo.
 
 * **Regras:**
 
