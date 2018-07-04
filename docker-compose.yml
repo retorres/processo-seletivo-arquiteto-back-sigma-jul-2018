@@ -1,0 +1,36 @@
+version: '2.1'
+
+services:
+  gp-db:
+    image: microsoft/mssql-server-linux
+    container_name: gp-db
+    ports: 
+      - "5111:1433"
+    environment:
+      SA_PASSWORD: "@Senha123"
+      ACCEPT_EULA: "Y"
+    networks:
+      - gp-network
+    volumes: 
+      - ./db:/var/opt/mssql
+
+  gp-api:
+    build:
+      dockerfile: ./src/GP.Api/Dockerfile 
+      context: .
+    image: processo-seletivo/gp-api
+    container_name: gp-api-n1
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_URLS: "http://0.0.0.0:5000"
+    networks:
+      - gp-network
+    ports:
+      - "5000:5000"
+    depends_on:
+      - gp-db
+
+networks:
+  gp-network: 
+    driver: bridge
+    

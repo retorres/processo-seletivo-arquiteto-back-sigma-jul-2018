@@ -1,127 +1,95 @@
-# **Processo Seletivo Arquiteto de Software Back-End da Sigma/TJMT**
+# Processo Seletivo Arquiteto de Software Back-End da Sigma/TJMT
 
-### **Bem-vindo ao processo seletivo para arquiteto de software da Sigma/TJMT!**
+### API GP - Gerenciador de patrimônios
 
-## **O desafio**
+------
 
-### **Crie serviços REST com Web API para o gerenciamento de patrimônios de uma empresa.**
+### Conceitos aplicados
 
-## **Requisitos**
+  Com as premissas impostas na problematica, foi-se entendido 3 tópicos fundamentais:
 
-### **Patrimônio**
+  1. **Necessidade de escalabilidade:** Visto que esta aplicação mesmo em estágio de MVP, deverá ser utilizada por todos os tribunais, ela deve ser de fácil escabilidade, por causa da quantidade de usuários ativos durante um determinado período.
+  2. **Regra de negócio Complexa:** Como a tendência vista no problema é a de que se tenha muita regra de negocio, então, com isso, viu-se a necessidade de uma arquitetura que seja flexivel e também de fácil manutenção.
+  3. **Diferentes níveis de programadores:** Com 2 times para dar manutenção/evolução em tal sistema, podemos dividir as atividades mais complexas como manutenção do dominio com os mais experientes e as atividades mais comuns como consultas, exposição de dados, com os menos experientes.
 
-* **Campos:**
+##### CQRS!
 
-    * Nome - obrigatório
+  Com esses 3 pontos visualizados, escolhi usar CQRS no projeto, já que com CQRS seria facilmente escalável, pois com a separação de escrita e leitura, podemos optar por escalar a leitura ou a escrita, ou então, ainda sim, usar mecanismos específicos de leituras em detrimento das tradicionais bases relacionais no futuro, em caso de necessidade.
 
-    * MarcaId - obrigatório
+ Com CQRS, devido a estrutura estar bem desacoplada, podemos colocar os desenvolvedores mais experientes para atuar diretamente no dominio da solução, visto que a tendência do mesmo, é ter um grande aumento de complexidade, assim os mantendo na evolução da aplicação.
 
-    * ModeloId - obrigatório
+------
 
-    * DataCriacao - obrigatório
+### O projeto
 
-    * Descrição
+  ![](C:\Users\Renan\Desktop\ARQUITETURA\sln.PNG)
 
-    * Nº do tombo - obrigatório
+  - **GP.Api:** A api exposta na web. Ela será responsável por integrar todos os recursos do sistema.
+  - **GP.CommandSide:** Será responsável por fazer as escritas do sistema. Nela, em um primeiro momento, conterá codigo de dominio *(Aggregates, Domain Events, DomainServices, Repositories),* infraestrutura *(comunicaçao com o database)* e aplicação *(Commands, Command Handlers eDomain Event Handlers), em um futuro proximo, na medida do necessário, pode-se adotar a separação deste produto em outras partes.
+  - **GP.QuerySide:** Este é o projeto mais simples, neste primeiro momento (fase MVP), decidi que a base de escrita, será a mesma de leitura, no futuro,pode-se adotar sistemas de fila para materializar visões de acordo com a necessidade da aplicação.
+  - **GP.UnitTest:** Neste primeiro momento será escrito somente testes de unidades do dominio. Afim de garantir que as regras solicitadas, estejam de acordo.
 
-* **Acessos:**
+### Pacotes utilizados
+  - **Mediatr** - Orquestrar os commands e as queries.
+  - **Polly** - Lib para tratar de resiliências e tolerância a falhas.
+  - **Fluent Validation** - Validar os commands antes de chegarem ao dominio.
+  - **Entity Framework** - ORM para trabalhar com o dominio.
+  - **Dapper** - Consultas com maior performance.
+  - **IdGen** - Lib para geração de identificadores.
+  - **xUnit** - Lib para testes.
+  - **Moq** - Lib para simular objetos.
+  - **Fluent Assertions** - Lib com linguagem mais natural para validar as saidas dos testes.
 
-É preciso disponibilizar meios para que sejam acessadas as informações de todos os patrimônios. Eles deverão ser obtidos por uma determinada marca, por um determinado modelo ou por um identificador único. Deverá conter operações de criação, atualização e exclusão de um patrimônio.
+------
 
-* **Regras:**
+### Como rodar a aplicação?
 
-    * O nº do tombo deve ser gerado automaticamente pelo sistema, e não pode ser alterado pelos usuários.
+Instale o Docker, clone o projeto e se estiver utilizando windows, clone na pasta do seu usuário do windows (por causa do docker) e então, abra uma linha de comando nesse diretorio e digite:
 
-### **Marca**
+`docker-compose build && docker-compose up`
 
-* **Campos:**
+A aplicação estará exposta no endereço: `http://localhost:5000/swagger`
 
-    * Nome - obrigatório
+### Apis Expostas
 
-    * DataCriacao - obrigatório
+#### Marcas:
+| Verbo     | Url      | Descrição      |
+| ---: | ---- | ---- |
+|GET    | */marcas* | Carrega as marcas de acordo com filtros especificados |
+| GET | */marcas/{marcaId}* | Obtem uma marca especifica |
+| POST | */marcas* | Cria uma nova marca |
+| PUT | */marcas/{marcaId}/renomear* | Renomeia uma marca já criada |
+| DELETE | */marcas/{marcaId}* | Exclui uma marca |
 
-* **Acessos:**
+#### 	Modelo:
+|  Verbo | Url                                 | Descrição                      |
+| -----: | ----------------------------------- | ------------------------------ |
+|    GET | */modelos*                          | Carrega os modelos com filtros |
+|    GET | */modelos/{marcaId}*                | Obtem um modelo especifico     |
+|   POST | */modelos*                          | Cria um novo Modelo            |
+|    PUT | */modelos/{modeloId}/renomear*      | Renomeia um modelo             |
+|    PUT | */modelos/{modeloId}/alterar-marca* | Altera a marca de um modelo    |
+| DELETE | */modelos/{modeloId}*               | Exclui um modelo               |
 
-É preciso disponibilizar meios para que sejam acessadas as informações de todas os marcas. Elas deverão ser obtidas por um identificador único. Deverá conter operações de criação, atualização e exclusão de uma marca.
+#### 	Patrimonio:
+|  Verbo | Url                          | Descrição                          |
+| -----: | ---------------------------- | ---------------------------------- |
+|    GET | */patrimonios*               | Carrega os patrimonios com filtros |
+|    GET | */patrimonios/{tomboNumero}* | Obtem um patrimonio especifico     |
+|   POST | */patrimonios*               | Cria um novo patrimonios           |
+|    PUT | */patrimonios/{tomboNumero}* | Altera dados de um patrimonio      |
+| DELETE | */patrimonios/{tomboNumero}* | Exclui um patrimonio               |
 
-* **Regras:**
+------
 
-    * Não deve permitir a existência de duas marcas com o mesmo nome.
+### Referências de estudo
 
-### **Modelo**
+- *[CQRS and REST: the perfect match](https://lostechies.com/jimmybogard/2016/06/01/cqrs-and-rest-the-perfect-match/)*
 
-* **Campos:**
+- *[CQRS Journey](https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj554200%28v%3Dpandp.10%29)*
 
-    * Nome - obrigatório
+- *[Tackling Business Complexity in a Microservice with DDD and CQRS Patterns](https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/)*
 
-    * DataCriacao - obrigatório
+- *[eShopOnContainers ](https://github.com/dotnet-architecture/eShopOnContainers)*
 
-* **Acessos:**
-
-É preciso disponibilizar meios para que sejam acessadas as informações de todos os modelos. Eles deverão ser obtidos por uma determinada marca ou por um identificador único. Deverá conter operações de criação, atualização e exclusão de um modelo.
-
-* **Regras:**
-
-    * Não deve permitir a existência de dois modelos com o mesmo nome para uma marca.
-
-### **Requisitos técnicos**
-
-* Deve-se utilizar C#;
-
-* Deve-se utilizar ASP.NET Core Web Api;
-
-* É necessário criar testes unitários;
-
-* Os dados devem ser salvos em banco;
-
-* Deve-se utilizar o Swagger;
-
-* É necessário ter um Dockerfile para criação de imagem;
-
-* É necessário ter um arquivo de configuração YAML para execução da aplicação através do Docker Compose (deve conter todos os serviços necessários);
-
-* A sua aplicação deve conter um arquivo README explicando o funcionamento e a solução adotada na sua implementação do desafio.
-
-### **Requisitos não funcionais**
-
-* Quanto à segurança, sua solução será, inicialmente pública, você está construindo um MVP, não se preocupe com isso;
-
-* Apesar do seu objetivo ser construir um MVP, sua arquitetura, bem como seu código será continuado pelos times de desenvolvimento, onde serão alocados para o projeto 2 times, ambos com 1 desenvolvedor sênior e dois devs plenos, um responsável pelo domínio do Patrimônio e o outro para o restante da solução, pois os gestores desse Produto têm muita coisa para acrescentar a nível de funcionalidades (principalmente no que diz respeito ao Patrimônio) e consequentemente, de complexidade, você, como arquiteto deve pensar nesse fatores, para o quesito manutenabilidade;
-
-* O time de desenvolvimento como um todo (analistas, QA, devs e você, arquiteto) estão todos alocados no TJ e a sua API será utilizada por todos os outros Tribunais de Justiça do Brasil e o time não poderá se deslocar, nem manter muito contato com os outros órgãos, e, ainda assim, deve ser fácil consumir sua solução (API e outras coisas que achar necessário).
-
-### **Observações/Dicas**
-
-* Não limite-se às funcionalidades acima. Qualquer feature extra é bem-vinda;
-
-* A arquitetura é por sua conta;
-
-* Iremos usar o docker-compose para testar sua aplicação;
-
-* Não é necessária a criação de telas.
-
-## **Critérios de avaliação**
-
-* Organização do código
-
-* Organização da estrutura
-
-* Arquitetura desenvolvida
-
-* Documentação do projeto (readme)
-
-## **Procedimento**
-
-* **Faça um fork do projeto:**
-
-    * https://github.com/kutzr/processo-seletivo-arquiteto-back-sigma-jul-2018
-
-* **Ao finalizar a sua aplicação, crie um pull request no projeto de origem.**
-
-## **Prazo**
-
-* **O prazo para criar pull requests é até o dia 04/07/2018, às 12h.**
-
-### **Dê o seu melhor!**
-
-### **Boa prova! ;)**
+  
