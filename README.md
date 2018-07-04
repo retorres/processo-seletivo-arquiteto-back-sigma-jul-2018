@@ -22,7 +22,7 @@
 
 ### O projeto
 
-  ![](C:\Users\Renan\Desktop\ARQUITETURA\sln.PNG)
+  ![](https://user-images.githubusercontent.com/9832526/42257583-2576530a-7f25-11e8-87bf-3de901d5a8f1.PNG)
 
   - **GP.Api:** A api exposta na web. Ela será responsável por integrar todos os recursos do sistema.
   - **GP.CommandSide:** Será responsável por fazer as escritas do sistema. Nela, em um primeiro momento, conterá codigo de dominio *(Aggregates, Domain Events, DomainServices, Repositories),* infraestrutura *(comunicaçao com o database)* e aplicação *(Commands, Command Handlers eDomain Event Handlers), em um futuro proximo, na medida do necessário, pode-se adotar a separação deste produto em outras partes.
