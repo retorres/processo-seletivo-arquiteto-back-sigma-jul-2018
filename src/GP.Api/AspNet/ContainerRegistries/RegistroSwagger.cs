@@ -30,11 +30,6 @@ namespace GP.Api.AspNet.ContainerRegistries
                             Url = "https://www.linkedin.com/in/renan-torres-378a94a4"
                         }
                     });
-
-                var basePath = AppContext.BaseDirectory;
-                c.IncludeXmlComments(Path.Combine(basePath, "GP.Api.xml"));
-                c.IncludeXmlComments(Path.Combine(basePath, "GP.CommandSide.xml"));
-                c.IncludeXmlComments(Path.Combine(basePath, "GP.QuerySide.xml")); 
             });
         }
     }
