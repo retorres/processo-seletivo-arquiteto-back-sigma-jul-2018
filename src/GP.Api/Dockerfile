@@ -20,10 +20,10 @@ RUN dotnet build GP.Api.csproj -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish GP.Api.csproj -c Release -o /app
-COPY ./src/GP.Api/bin/Debug/netcoreapp2.1/GP.Api.xml /app
-COPY ./src/GP.Api/bin/Debug/netcoreapp2.1/GP.QuerySide.xml /app
-COPY ./src/GP.Api/bin/Debug/netcoreapp2.1/GP.CommandSide.xml /app
-
+#COPY ./src/GP.Api/bin/Debug/netcoreapp2.1/GP.Api.xml /app
+#COPY ./src/GP.Api/bin/Debug/netcoreapp2.1/GP.QuerySide.xml /app
+#COPY ./src/GP.Api/bin/Debug/netcoreapp2.1/GP.CommandSide.xml /app
+#Não consegui fazer funcionar a documentação do swagger
 
 FROM base AS final
 WORKDIR /app
