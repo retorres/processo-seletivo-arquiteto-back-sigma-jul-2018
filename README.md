@@ -25,8 +25,8 @@
   ![](https://user-images.githubusercontent.com/9832526/42257583-2576530a-7f25-11e8-87bf-3de901d5a8f1.PNG)
 
   - **GP.Api:** A api exposta na web. Ela será responsável por integrar todos os recursos do sistema.
-  - **GP.CommandSide:** Será responsável por fazer as escritas do sistema. Nela, em um primeiro momento, conterá codigo de dominio *(Aggregates, Domain Events, DomainServices, Repositories),* infraestrutura *(comunicaçao com o database)* e aplicação *(Commands, Command Handlers eDomain Event Handlers), em um futuro proximo, na medida do necessário, pode-se adotar a separação deste produto em outras partes.
-  - **GP.QuerySide:** Este é o projeto mais simples, neste primeiro momento (fase MVP), decidi que a base de escrita, será a mesma de leitura, no futuro,pode-se adotar sistemas de fila para materializar visões de acordo com a necessidade da aplicação.
+  - **GP.CommandSide:** Será responsável por fazer as escritas do sistema. Nela, em um primeiro momento, conterá codigo de dominio *(Aggregates, Domain Events, DomainServices, Repositories),* infraestrutura *(comunicaçao com o database)* e aplicação *(Commands, Command Handlers e Domain Event Handlers)*, em um futuro proximo, na medida do necessário, pode-se adotar a separação deste produto em outras partes.
+  - **GP.QuerySide:** Este é o projeto mais simples, neste primeiro momento (fase MVP), decidi que a base de escrita, será a mesma de leitura, para podermos fazer entregas mais rapidas neste momento, assim, podendo avaliar o MVP. No futuro, pode-se adotar sistemas de fila para materializar visões de acordo com a necessidade da aplicação.
   - **GP.UnitTest:** Neste primeiro momento será escrito somente testes de unidades do dominio. Afim de garantir que as regras solicitadas, estejam de acordo.
 
 ### Pacotes utilizados
